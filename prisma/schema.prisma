@@ -1,0 +1,124 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// Marketing Monitoring & Sales Tracking Schema
+// Based on SRS & ERD (INT-SRS-CRTV-004-V1.0)
+// ============================================
+
+model Mitra {
+  id               Int       @id @default(autoincrement())
+  nama_mitra       String    // e.g. 'SCCIC', 'Urbansolv'
+  company_style    String?   // Klasifikasi tipe perusahaan
+  alamat           String?   // Alamat klien
+  contact_name     String?   // Nama individu kontak utama
+  contact_position String?   // Jabatan kontak klien
+  contact_phone    String?   // No telepon klien
+  contact_email    String?   // Email klien
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  deleted_at       DateTime?
+
+  // Relations
+  marketing_monitorings MarketingMonitoring[]
+
+  @@map("mitra")
+}
+
+model Service {
+  id           Int       @id @default(autoincrement())
+  service_name String    @unique // e.g. 'Product', 'Solution', 'Initiative'
+  description  String?
+  created_at   DateTime  @default(now())
+  updated_at   DateTime  @updatedAt
+  deleted_at   DateTime?
+
+  // Relations
+  categories            Category[]
+  marketing_monitorings MarketingMonitoring[]
+
+  @@map("services")
+}
+
+model Category {
+  id            Int       @id @default(autoincrement())
+  category_name String    // e.g. 'Urban Digital Twin', 'Building Intelligence', etc.
+  service_id    Int
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+  deleted_at    DateTime?
+
+  // Relations
+  service               Service               @relation(fields: [service_id], references: [id])
+  marketing_monitorings MarketingMonitoring[]
+
+  @@map("categories")
+}
+
+model MarketingMonitoring {
+  id                        Int       @id @default(autoincrement())
+  nama_proyek               String
+  mitra_id                  Int
+  service_id                Int
+  category_id               Int?
+  pic_id                    Int       // ID Sales PIC dari Auth/HR service
+  pic_name                  String?   // Nama Sales PIC
+  status                    String    @default("Inisiasi") // Inisiasi, Proposal, Penawaran, Kontrak, Closing, Batal
+  lead_source               String?   // Sumber perolehan lead
+  last_contact              DateTime? // Tanggal terakhir interaksi klien
+  tahun                     Int       // Tahun proyek berjalan
+  deadline                  DateTime? // Batas waktu penyelesaian
+  keterangan_administratif  String?   @db.Text
+  keterangan_crm            String?   @db.Text
+  created_at                DateTime  @default(now())
+  updated_at                DateTime  @updatedAt
+  deleted_at                DateTime?
+
+  // Relations
+  mitra              Mitra               @relation(fields: [mitra_id], references: [id])
+  service            Service             @relation(fields: [service_id], references: [id])
+  category           Category?           @relation(fields: [category_id], references: [id])
+  transaksi          Transaksi?
+  catatan_monitoring CatatanMonitoring[]
+
+  @@map("marketing_monitoring")
+}
+
+model Transaksi {
+  id                      Int      @id @default(autoincrement())
+  marketing_monitoring_id Int      @unique
+  nilai_spk               Float    @default(0) // Nilai kontrak yang disepakati
+  potential_revenue       Float    @default(0) // Estimasi nilai proyek
+  nilai_diterima          Float    @default(0) // Nilai aktual yang diterima
+  cost_project            Float    @default(0) // Total biaya proyek
+  net_profit              Float    @default(0) // Keuntungan bersih
+  tanggal_deal            DateTime?
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+
+  // Relations
+  marketing_monitoring MarketingMonitoring @relation(fields: [marketing_monitoring_id], references: [id], onDelete: Cascade)
+
+  @@map("transaksi")
+}
+
+model CatatanMonitoring {
+  id                      Int      @id @default(autoincrement())
+  marketing_monitoring_id Int
+  user_id                 Int      // User author dari JWT
+  user_name               String?
+  note_text               String   @db.Text
+  note_type               String   @default("GENERAL") // STATUS_CHANGE, CRM_NOTE, ADMINISTRATIVE, GENERAL
+  created_at              DateTime @default(now())
+  updated_at              DateTime @updatedAt
+
+  // Relations
+  marketing_monitoring MarketingMonitoring @relation(fields: [marketing_monitoring_id], references: [id], onDelete: Cascade)
+
+  @@map("catatan_monitoring")
+}
