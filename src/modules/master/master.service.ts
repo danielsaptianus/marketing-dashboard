@@ -8,7 +8,11 @@ import { PrismaService } from '@common/prisma/prisma.service';
 import { CreateMitraDto, UpdateMitraDto } from './core/dto/mitra.dto';
 import { CreateServiceDto, UpdateServiceDto } from './core/dto/service.dto';
 import { CreateCategoryDto, UpdateCategoryDto } from './core/dto/category.dto';
-import { MitraEntity, ServiceEntity, CategoryEntity } from './core/entities/master.entity';
+import {
+  MitraResponseDto,
+  ServiceResponseDto,
+  CategoryResponseDto,
+} from './core/dto/master-response.dto';
 
 @Injectable()
 export class MasterService {
@@ -17,14 +21,14 @@ export class MasterService {
   // ============================================
   // MITRA METHODS
   // ============================================
-  async findAllMitra(): Promise<MitraEntity[]> {
+  async findAllMitra(): Promise<MitraResponseDto[]> {
     return this.prisma.mitra.findMany({
       where: { deleted_at: null },
       orderBy: { id: 'asc' },
     });
   }
 
-  async findMitraById(id: number): Promise<MitraEntity> {
+  async findMitraById(id: number): Promise<MitraResponseDto> {
     const mitra = await this.prisma.mitra.findFirst({
       where: { id, deleted_at: null },
     });
@@ -34,13 +38,13 @@ export class MasterService {
     return mitra;
   }
 
-  async createMitra(dto: CreateMitraDto): Promise<MitraEntity> {
+  async createMitra(dto: CreateMitraDto): Promise<MitraResponseDto> {
     return this.prisma.mitra.create({
       data: dto,
     });
   }
 
-  async updateMitra(id: number, dto: UpdateMitraDto): Promise<MitraEntity> {
+  async updateMitra(id: number, dto: UpdateMitraDto): Promise<MitraResponseDto> {
     await this.findMitraById(id);
     return this.prisma.mitra.update({
       where: { id },
@@ -60,7 +64,7 @@ export class MasterService {
   // ============================================
   // SERVICE METHODS
   // ============================================
-  async findAllServices(): Promise<ServiceEntity[]> {
+  async findAllServices(): Promise<ServiceResponseDto[]> {
     return this.prisma.service.findMany({
       where: { deleted_at: null },
       include: {
@@ -73,7 +77,7 @@ export class MasterService {
     });
   }
 
-  async findServiceById(id: number): Promise<ServiceEntity> {
+  async findServiceById(id: number): Promise<ServiceResponseDto> {
     const service = await this.prisma.service.findFirst({
       where: { id, deleted_at: null },
       include: {
@@ -89,7 +93,7 @@ export class MasterService {
     return service;
   }
 
-  async createService(dto: CreateServiceDto): Promise<ServiceEntity> {
+  async createService(dto: CreateServiceDto): Promise<ServiceResponseDto> {
     const existing = await this.prisma.service.findUnique({
       where: { service_name: dto.service_name },
     });
@@ -102,7 +106,7 @@ export class MasterService {
     });
   }
 
-  async updateService(id: number, dto: UpdateServiceDto): Promise<ServiceEntity> {
+  async updateService(id: number, dto: UpdateServiceDto): Promise<ServiceResponseDto> {
     await this.findServiceById(id);
     if (dto.service_name) {
       const existing = await this.prisma.service.findUnique({
@@ -131,7 +135,7 @@ export class MasterService {
   // ============================================
   // CATEGORY METHODS
   // ============================================
-  async findAllCategories(serviceId?: number): Promise<CategoryEntity[]> {
+  async findAllCategories(serviceId?: number): Promise<CategoryResponseDto[]> {
     return this.prisma.category.findMany({
       where: {
         deleted_at: null,
@@ -144,7 +148,7 @@ export class MasterService {
     });
   }
 
-  async findCategoryById(id: number): Promise<CategoryEntity> {
+  async findCategoryById(id: number): Promise<CategoryResponseDto> {
     const category = await this.prisma.category.findFirst({
       where: { id, deleted_at: null },
       include: {
@@ -157,7 +161,7 @@ export class MasterService {
     return category;
   }
 
-  async createCategory(dto: CreateCategoryDto): Promise<CategoryEntity> {
+  async createCategory(dto: CreateCategoryDto): Promise<CategoryResponseDto> {
     const service = await this.prisma.service.findFirst({
       where: { id: dto.service_id, deleted_at: null },
     });
@@ -170,7 +174,7 @@ export class MasterService {
     });
   }
 
-  async updateCategory(id: number, dto: UpdateCategoryDto): Promise<CategoryEntity> {
+  async updateCategory(id: number, dto: UpdateCategoryDto): Promise<CategoryResponseDto> {
     await this.findCategoryById(id);
     if (dto.service_id) {
       const service = await this.prisma.service.findFirst({

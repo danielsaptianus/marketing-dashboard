@@ -1,6 +1,6 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export class MitraEntity {
+export class MitraResponseDto {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -13,7 +13,7 @@ export class MitraEntity {
   @ApiPropertyOptional({ example: 'ITB Innovation Park, Gedung 01, Lantai 09' })
   alamat?: string | null;
 
-  @ApiPropertyOptional({ example: 'Valdi Firstianto' })
+  @ApiPropertyOptional({ example: 'Daniel' })
   contact_name?: string | null;
 
   @ApiPropertyOptional({ example: 'Tech Lead / Management' })
@@ -22,7 +22,7 @@ export class MitraEntity {
   @ApiPropertyOptional({ example: '6282230668151' })
   contact_phone?: string | null;
 
-  @ApiPropertyOptional({ example: 'contact@urbansolv.co.id' })
+  @ApiPropertyOptional({ example: 'daniel@urbansolv.co.id' })
   contact_email?: string | null;
 
   @ApiProperty()
@@ -32,7 +32,7 @@ export class MitraEntity {
   updated_at: Date;
 }
 
-export class CategoryEntity {
+export class CategoryResponseDto {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -52,7 +52,7 @@ export class CategoryEntity {
   updated_at: Date;
 }
 
-export class ServiceEntity {
+export class ServiceResponseDto {
   @ApiProperty({ example: 1 })
   id: number;
 
@@ -62,8 +62,8 @@ export class ServiceEntity {
   @ApiPropertyOptional({ example: 'Layanan berbasis produk software dan platform' })
   description?: string | null;
 
-  @ApiPropertyOptional({ type: () => [CategoryEntity] })
-  categories?: CategoryEntity[];
+  @ApiPropertyOptional({ type: () => [CategoryResponseDto] })
+  categories?: CategoryResponseDto[];
 
   @ApiProperty()
   created_at: Date;

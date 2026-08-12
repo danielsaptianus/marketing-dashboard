@@ -56,8 +56,10 @@ async function bootstrap() {
       .setDescription('Marketing Monitoring Backend API Documentation')
       .setVersion('1.0')
       .addBearerAuth()
-      .addTag('Authentication', 'Authentication endpoints')
-      .addTag('Users', 'User management endpoints')
+      .addTag('Auth', 'Authentication endpoints')
+      .addTag('Profile', 'Profile & HR Service proxy endpoints')
+      .addTag('Master Data', 'Master Data endpoints (Mitra, Services, Categories)')
+      .addTag('Marketing Monitoring', 'Sales Tracking & Marketing Monitoring endpoints')
       .addTag('Health', 'Health check endpoints')
       .build();
 

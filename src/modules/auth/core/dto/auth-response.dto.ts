@@ -4,10 +4,10 @@ export class AuthUserDto {
   @ApiProperty({ example: 1 })
   id: number | string;
 
-  @ApiProperty({ example: 'Daniel Kasep' })
+  @ApiProperty({ example: 'Daniel' })
   name: string;
 
-  @ApiProperty({ example: 'user@urbansolv.co.id' })
+  @ApiProperty({ example: 'daniel@urbansolv.co.id' })
   email: string;
 
   @ApiProperty({ example: 'Sales Admin' })
@@ -26,12 +26,15 @@ export class AuthUserDto {
   phone?: string | null;
 }
 
-export class AuthResponseDto {
-  @ApiProperty()
+export class AuthTokensDto {
+  @ApiProperty({ example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' })
   access_token: string;
 
-  @ApiProperty({ type: AuthUserDto })
-  user: AuthUserDto;
+  @ApiPropertyOptional({ example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...' })
+  refresh_token?: string;
 }
 
-
+export class MessageResponseDto {
+  @ApiProperty({ example: 'Operation completed successfully' })
+  message: string;
+}

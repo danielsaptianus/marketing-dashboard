@@ -17,7 +17,11 @@ import { MasterService } from '../../master.service';
 import { CreateMitraDto, UpdateMitraDto } from '../../core/dto/mitra.dto';
 import { CreateServiceDto, UpdateServiceDto } from '../../core/dto/service.dto';
 import { CreateCategoryDto, UpdateCategoryDto } from '../../core/dto/category.dto';
-import { MitraEntity, ServiceEntity, CategoryEntity } from '../../core/entities/master.entity';
+import {
+  MitraResponseDto,
+  ServiceResponseDto,
+  CategoryResponseDto,
+} from '../../core/dto/master-response.dto';
 import { ApiSuccessResponse, ApiSuccessArrayResponse } from '@common/decorators/api-response.decorator';
 import { JwtAuthGuard } from '@common/guards/jwt-auth.guard';
 import { PermissionsGuard } from '@common/guards/permissions.guard';
@@ -35,34 +39,34 @@ export class MasterController {
   // ============================================
   @Get('mitra')
   @ApiOperation({ summary: 'Get list of active Mitra (SCCIC, Urbansolv, dll)' })
-  @ApiSuccessArrayResponse(MitraEntity)
-  async findAllMitra(): Promise<MitraEntity[]> {
+  @ApiSuccessArrayResponse(MitraResponseDto)
+  async findAllMitra(): Promise<MitraResponseDto[]> {
     return this.masterService.findAllMitra();
   }
 
   @Get('mitra/:id')
   @ApiOperation({ summary: 'Get detail Mitra by ID' })
-  @ApiSuccessResponse(MitraEntity)
-  async findMitraById(@Param('id', ParseIntPipe) id: number): Promise<MitraEntity> {
+  @ApiSuccessResponse(MitraResponseDto)
+  async findMitraById(@Param('id', ParseIntPipe) id: number): Promise<MitraResponseDto> {
     return this.masterService.findMitraById(id);
   }
 
   @Post('mitra')
   @Permissions('ADD_MASTER_DATA')
   @ApiOperation({ summary: 'Create new Mitra' })
-  @ApiSuccessResponse(MitraEntity)
-  async createMitra(@Body() dto: CreateMitraDto): Promise<MitraEntity> {
+  @ApiSuccessResponse(MitraResponseDto)
+  async createMitra(@Body() dto: CreateMitraDto): Promise<MitraResponseDto> {
     return this.masterService.createMitra(dto);
   }
 
   @Patch('mitra/:id')
   @Permissions('UPDATE_MASTER_DATA')
   @ApiOperation({ summary: 'Update Mitra by ID' })
-  @ApiSuccessResponse(MitraEntity)
+  @ApiSuccessResponse(MitraResponseDto)
   async updateMitra(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateMitraDto,
-  ): Promise<MitraEntity> {
+  ): Promise<MitraResponseDto> {
     return this.masterService.updateMitra(id, dto);
   }
 
@@ -80,34 +84,34 @@ export class MasterController {
   // ============================================
   @Get('services')
   @ApiOperation({ summary: 'Get list of Services with Categories (Product, Solution, Initiative)' })
-  @ApiSuccessArrayResponse(ServiceEntity)
-  async findAllServices(): Promise<ServiceEntity[]> {
+  @ApiSuccessArrayResponse(ServiceResponseDto)
+  async findAllServices(): Promise<ServiceResponseDto[]> {
     return this.masterService.findAllServices();
   }
 
   @Get('services/:id')
   @ApiOperation({ summary: 'Get detail Service by ID' })
-  @ApiSuccessResponse(ServiceEntity)
-  async findServiceById(@Param('id', ParseIntPipe) id: number): Promise<ServiceEntity> {
+  @ApiSuccessResponse(ServiceResponseDto)
+  async findServiceById(@Param('id', ParseIntPipe) id: number): Promise<ServiceResponseDto> {
     return this.masterService.findServiceById(id);
   }
 
   @Post('services')
   @Permissions('ADD_MASTER_DATA')
   @ApiOperation({ summary: 'Create new Service' })
-  @ApiSuccessResponse(ServiceEntity)
-  async createService(@Body() dto: CreateServiceDto): Promise<ServiceEntity> {
+  @ApiSuccessResponse(ServiceResponseDto)
+  async createService(@Body() dto: CreateServiceDto): Promise<ServiceResponseDto> {
     return this.masterService.createService(dto);
   }
 
   @Patch('services/:id')
   @Permissions('UPDATE_MASTER_DATA')
   @ApiOperation({ summary: 'Update Service by ID' })
-  @ApiSuccessResponse(ServiceEntity)
+  @ApiSuccessResponse(ServiceResponseDto)
   async updateService(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateServiceDto,
-  ): Promise<ServiceEntity> {
+  ): Promise<ServiceResponseDto> {
     return this.masterService.updateService(id, dto);
   }
 
@@ -126,37 +130,37 @@ export class MasterController {
   @Get('categories')
   @ApiOperation({ summary: 'Get list of Categories with optional filter by service_id' })
   @ApiQuery({ name: 'service_id', required: false, type: Number, description: 'Filter category by service ID' })
-  @ApiSuccessArrayResponse(CategoryEntity)
+  @ApiSuccessArrayResponse(CategoryResponseDto)
   async findAllCategories(
     @Query('service_id') serviceId?: string,
-  ): Promise<CategoryEntity[]> {
+  ): Promise<CategoryResponseDto[]> {
     const parsedServiceId = serviceId ? parseInt(serviceId, 10) : undefined;
     return this.masterService.findAllCategories(parsedServiceId);
   }
 
   @Get('categories/:id')
   @ApiOperation({ summary: 'Get detail Category by ID' })
-  @ApiSuccessResponse(CategoryEntity)
-  async findCategoryById(@Param('id', ParseIntPipe) id: number): Promise<CategoryEntity> {
+  @ApiSuccessResponse(CategoryResponseDto)
+  async findCategoryById(@Param('id', ParseIntPipe) id: number): Promise<CategoryResponseDto> {
     return this.masterService.findCategoryById(id);
   }
 
   @Post('categories')
   @Permissions('ADD_MASTER_DATA')
   @ApiOperation({ summary: 'Create new Category' })
-  @ApiSuccessResponse(CategoryEntity)
-  async createCategory(@Body() dto: CreateCategoryDto): Promise<CategoryEntity> {
+  @ApiSuccessResponse(CategoryResponseDto)
+  async createCategory(@Body() dto: CreateCategoryDto): Promise<CategoryResponseDto> {
     return this.masterService.createCategory(dto);
   }
 
   @Patch('categories/:id')
   @Permissions('UPDATE_MASTER_DATA')
   @ApiOperation({ summary: 'Update Category by ID' })
-  @ApiSuccessResponse(CategoryEntity)
+  @ApiSuccessResponse(CategoryResponseDto)
   async updateCategory(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateCategoryDto,
-  ): Promise<CategoryEntity> {
+  ): Promise<CategoryResponseDto> {
     return this.masterService.updateCategory(id, dto);
   }
 

@@ -18,7 +18,9 @@ import { PrismaModule } from './common/prisma/prisma.module';
 // Feature modules
 import { HealthModule } from './modules/health/health.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { ProfileModule } from './modules/profile/profile.module';
 import { MasterModule } from './modules/master/master.module';
+import { MarketingMonitoringModule } from './modules/marketing-monitoring/marketing-monitoring.module';
 
 @Module({
   imports: [
@@ -34,7 +36,9 @@ import { MasterModule } from './modules/master/master.module';
 
     // Feature modules
     AuthModule,
+    ProfileModule,
     MasterModule,
+    MarketingMonitoringModule,
     HealthModule,
   ],
   providers: [

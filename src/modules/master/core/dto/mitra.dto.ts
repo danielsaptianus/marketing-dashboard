@@ -17,7 +17,7 @@ export class CreateMitraDto {
   @IsOptional()
   alamat?: string;
 
-  @ApiPropertyOptional({ example: 'Valdi Firstianto' })
+  @ApiPropertyOptional({ example: 'Daniel' })
   @IsString()
   @IsOptional()
   contact_name?: string;
@@ -32,7 +32,7 @@ export class CreateMitraDto {
   @IsOptional()
   contact_phone?: string;
 
-  @ApiPropertyOptional({ example: 'contact@urbansolv.co.id' })
+  @ApiPropertyOptional({ example: 'daniel@urbansolv.co.id' })
   @IsEmail({}, { message: 'Format email tidak valid' })
   @IsOptional()
   contact_email?: string;
@@ -54,7 +54,7 @@ export class UpdateMitraDto {
   @IsOptional()
   alamat?: string;
 
-  @ApiPropertyOptional({ example: 'Valdi Firstianto' })
+  @ApiPropertyOptional({ example: 'Daniel' })
   @IsString()
   @IsOptional()
   contact_name?: string;
@@ -69,7 +69,7 @@ export class UpdateMitraDto {
   @IsOptional()
   contact_phone?: string;
 
-  @ApiPropertyOptional({ example: 'contact@urbansolv.co.id' })
+  @ApiPropertyOptional({ example: 'daniel@urbansolv.co.id' })
   @IsEmail({}, { message: 'Format email tidak valid' })
   @IsOptional()
   contact_email?: string;
