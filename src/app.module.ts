@@ -21,6 +21,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProfileModule } from './modules/profile/profile.module';
 import { MasterModule } from './modules/master/master.module';
 import { MarketingMonitoringModule } from './modules/marketing-monitoring/marketing-monitoring.module';
+import { DashboardModule } from './modules/dashboard/dashboard.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { MarketingMonitoringModule } from './modules/marketing-monitoring/market
     ProfileModule,
     MasterModule,
     MarketingMonitoringModule,
+    DashboardModule,
     HealthModule,
   ],
   providers: [

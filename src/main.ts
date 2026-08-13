@@ -58,6 +58,7 @@ async function bootstrap() {
       .addBearerAuth()
       .addTag('Auth', 'Authentication endpoints')
       .addTag('Profile', 'Profile & HR Service proxy endpoints')
+      .addTag('Dashboard', 'Dashboard KPI & Analytics endpoints')
       .addTag('Master Data', 'Master Data endpoints (Mitra, Services, Categories)')
       .addTag('Marketing Monitoring', 'Sales Tracking & Marketing Monitoring endpoints')
       .addTag('Health', 'Health check endpoints')
