@@ -85,6 +85,7 @@ model MarketingMonitoring {
   category           Category?           @relation(fields: [category_id], references: [id])
   transaksi          Transaksi?
   catatan_monitoring CatatanMonitoring[]
+  tasks              Task[]
 
   @@map("marketing_monitoring")
 }
@@ -121,4 +122,40 @@ model CatatanMonitoring {
   marketing_monitoring MarketingMonitoring @relation(fields: [marketing_monitoring_id], references: [id], onDelete: Cascade)
 
   @@map("catatan_monitoring")
+}
+
+model Task {
+  id                      Int       @id @default(autoincrement())
+  title                   String
+  description             String?   @db.Text
+  priority                String    @default("Medium") // High, Medium, Low
+  status                  String    @default("Pending") // Pending, In_Progress, Done
+  due_date                DateTime?
+  pic_id                  Int       // ID PIC sales member
+  pic_name                String?
+  sop_link                String?   // Link SOP eksternal
+  marketing_monitoring_id Int?      // Relasi opsional ke data sales tracking
+  created_at              DateTime  @default(now())
+  updated_at              DateTime  @updatedAt
+  deleted_at              DateTime?
+
+  // Relations
+  marketing_monitoring MarketingMonitoring? @relation(fields: [marketing_monitoring_id], references: [id], onDelete: SetNull)
+  subtasks             Subtask[]
+
+  @@map("tasks")
+}
+
+model Subtask {
+  id         Int      @id @default(autoincrement())
+  task_id    Int
+  title      String
+  is_done    Boolean  @default(false)
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  // Relations
+  task Task @relation(fields: [task_id], references: [id], onDelete: Cascade)
+
+  @@map("subtasks")
 }

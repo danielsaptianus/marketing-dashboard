@@ -61,6 +61,7 @@ async function bootstrap() {
       .addTag('Dashboard', 'Dashboard KPI & Analytics endpoints')
       .addTag('Master Data', 'Master Data endpoints (Mitra, Services, Categories)')
       .addTag('Marketing Monitoring', 'Sales Tracking & Marketing Monitoring endpoints')
+      .addTag('Task', 'Task & Subtask Management endpoints')
       .addTag('Health', 'Health check endpoints')
       .build();
 
