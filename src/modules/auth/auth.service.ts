@@ -59,7 +59,6 @@ export class AuthService {
         {
           email: loginDto.email,
           password: loginDto.password,
-          app_key: appName,
         },
         { headers: this.getHeaders() },
       );
